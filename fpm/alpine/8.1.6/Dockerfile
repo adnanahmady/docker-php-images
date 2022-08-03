@@ -12,6 +12,7 @@ RUN docker-php-ext-enable xdebug \
         mongodb \
         redis
 RUN apk add --update --no-cache libpq-dev \
+    openssl-dev \
     libpng-dev \
     libzip-dev \
     libmcrypt-dev \
@@ -25,6 +26,7 @@ RUN apk add --update --no-cache libpq-dev \
     libjpeg-turbo-dev
 
 RUN docker-php-ext-install opcache \
+        pcntl \
         pdo \
         pdo_pgsql \
         pdo_mysql \
@@ -33,8 +35,8 @@ RUN docker-php-ext-install opcache \
         bcmath
 
 RUN docker-php-ext-install -j$(nproc) gd \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && apk del -fr --purge .build-deps
+    && docker-php-ext-configure gd --with-freetype --with-jpeg
+RUN apk del -fr --purge .build-deps
 FROM php:8.1.6-fpm-alpine3.15
 
 RUN apk add --no-cache --update sudo \
@@ -49,6 +51,7 @@ RUN apk add --no-cache --update sudo \
     freetype-dev \
     libpng-dev \
     jpeg-dev \
+    bash \
     libjpeg-turbo-dev
 RUN adduser -D "docker" docker \
     && echo 'docker ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/docker \
