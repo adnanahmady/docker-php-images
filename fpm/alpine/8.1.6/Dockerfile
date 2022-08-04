@@ -72,3 +72,7 @@ RUN echo "memory_limit=512M" > /usr/local/etc/php/conf.d/docker-php-ext-memory_l
     && echo 'opcache.jit_buffer_size=500M' >> /usr/local/etc/php/conf.d/docker-php-ext-opcache-jit.ini \
     && echo 'opcache.enable_cli=1' >> /usr/local/etc/php/conf.d/docker-php-ext-opcache-cli.ini \
     && echo 'xdebug.mode=off' >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug-configuration.ini
+
+USER docker
+COPY --chown=docker:docker .bashrc /home/docker/.bashrc
+USER root
